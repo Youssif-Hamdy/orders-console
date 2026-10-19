@@ -11,6 +11,9 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3000),
   CLIENT_ORIGIN: z.string().url("CLIENT_ORIGIN must be a valid URL"),
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+  // When set and NODE_ENV=development, GET /api/orders adds a random delay
+  // up to this many milliseconds — useful for testing frontend race conditions.
+  SIMULATE_LATENCY_MS: z.coerce.number().int().min(0).optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);

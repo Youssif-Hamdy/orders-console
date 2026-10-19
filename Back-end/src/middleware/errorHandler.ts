@@ -8,8 +8,14 @@ export function errorHandler(
 ): void {
   console.error(err);
 
+  // Services can attach a statusCode to signal 400/422 errors through next(err)
+  const statusCode =
+    typeof (err as { statusCode?: unknown }).statusCode === "number"
+      ? (err as { statusCode: number }).statusCode
+      : 500;
+
   const message =
     err instanceof Error ? err.message : "An unexpected error occurred";
 
-  res.status(500).json({ error: message });
+  res.status(statusCode).json({ error: message });
 }
