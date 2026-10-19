@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { ApiError } from "../api/client";
 import * as authApi from "../api/auth";
 
@@ -6,6 +7,7 @@ const ME_KEY = ["me"] as const;
 
 export function useAuth() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const me = useQuery({
     queryKey: ME_KEY,
@@ -31,7 +33,7 @@ export function useAuth() {
     mutationFn: authApi.logout,
     onSuccess: () => {
       queryClient.clear();
-      queryClient.setQueryData(ME_KEY, null);
+      navigate("/login", { replace: true });
     },
   });
 
