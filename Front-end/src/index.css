@@ -1,1 +1,36 @@
 @import "tailwindcss";
+
+.auth-bg {
+  position: absolute;
+  inset: -3rem;
+  z-index: -20;
+  background-image: url("./assets/phone.png");
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px) brightness(0.75);
+  animation: bg-drift 28s ease-in-out infinite alternate;
+}
+
+@media (min-width: 768px) {
+  .auth-bg {
+    background-image: url("./assets/desktop.png");
+  }
+}
+
+@keyframes bg-drift {
+  from { transform: scale(1.05) translate3d(0, 0, 0); }
+  to   { transform: scale(1.15) translate3d(-1.5%, -1%, 0); }
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+.animate-card-in {
+  animation: card-in 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-bg, .animate-card-in { animation: none; }
+}
